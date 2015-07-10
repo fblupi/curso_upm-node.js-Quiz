@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8"><title> Preguntas </title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' 
+  <link rel='stylesheet'
         type='text/css'
         media='only screen and (min-width: 530px) and (min-device-width: 481px)'
         href='/stylesheets/wide.css' />
   <link rel='stylesheet'
         type='text/css'
-        media='only screen and (max-width: 480px)' 
+        media='only screen and (max-width: 480px)'
         href='/stylesheets/smartphone.css' />
 
-</head> 
+</head>
 
 <body>
 <div id="page-wrap">
@@ -27,6 +27,14 @@
   </nav>
 
   <section class="main" id="s1">
+    <% if (errors.length) { %>
+      <span id='ErrorMsgs'>
+        Corregir errores:<br/>
+        <% for (var i in errors) { %>
+           <span> <%= errors[i].message %> </span><br/>
+        <% } %>
+      </span>
+    <% } %>
     <div><%- body %></div>
   </section>
 
@@ -35,5 +43,5 @@
     <a href="https://github.com/fblupi/curso_upm-node.js-Quiz">Proyecto en GitHub</a>
   </footer>
 </div>
-</body> 
+</body>
 </html>
