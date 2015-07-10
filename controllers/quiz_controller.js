@@ -20,7 +20,7 @@ exports.index = function(req, res) {
       function(quizes) {
         res.render('quizes/index', {quizes: quizes});
       }
-    ).catch(function(error) { next(error); });    
+    ).catch(function(error) { next(error); });
   } else {
     models.Quiz.findAll().then(
       function(quizes) {
@@ -47,4 +47,23 @@ exports.answer = function(req, res) {
 // GET author
 exports.author = function(req, res) {
   res.render('author');
+};
+
+// GET /quizes/new
+exports.new = function(req, res) {
+  var quiz = models.Quiz.build({
+    pregunta: "Pregunta", respuesta: "Respuesta"
+  });
+
+  res.render('quizes/new', {quiz: quiz});
+};
+
+// POST /quizes/create
+exports.create = function(req, res) {
+  var quiz = models.Quiz.build(req.body.quiz);
+
+  // guarda en BBDD los campos pregunta y respuesta de quiz
+  quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+    res.redirect('/quizes');
+  }) // res.redirect: Redirecciona HTTP a lista de preguntas
 };
