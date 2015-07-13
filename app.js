@@ -30,7 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Helpers dinamicos:
 app.use(function(req, res, next) {
-
+  if(!req.session.redir) {
+    req.session.redir = '/';
+  }
   // guardar path en session.redir para despues de login
   if (!req.path.match(/\/login|\/logout/)) {
     req.session.redir = req.path;
@@ -38,6 +40,17 @@ app.use(function(req, res, next) {
 
   // Hacer visible req.session en las vistas
   res.locals.session = req.session;
+  next();
+});
+
+app.use(function(req, res, next) {
+  if(req.session.user) {
+    if(Date.now() - req.session.user.lastRequestTime > 120000) {
+      delete req.session.user;
+    } else {
+      req.session.user.lastRequestTime = Date.now();
+    }
+  }
   next();
 });
 
